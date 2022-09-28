@@ -2,19 +2,19 @@
 
 # BEGIN PARAMETER ZONE
 ## ODbeta params
-ODBETA_DOWNLOAD_PLAN="A"        # "A": Direct download; "B": Artifact from GHAction
-ODBETA_VERSION=2022-02-13       # ODbeta version to install. It should correspond with direct download or GHArtifact
+ODBETA_DOWNLOAD_PLAN="B"        # "A": Direct download; "B": Artifact from GHAction
+ODBETA_VERSION=2022-09-28       # ODbeta version to install. It should correspond with direct download or GHArtifact
 ### For plan "A"
 ODBETA_DIR_URL=http://od.abstraction.se/opendingux/26145a93f2e17d0df86ae20b7af455ea155e169c
 ### For plan "B"
-ODBETA_ARTIFACT_ID=287825131    # ID of `update-gcw0` artifact in last workflow execution of `opendingux`
+ODBETA_ARTIFACT_ID=371929863    # ID of `update-gcw0` artifact in last workflow execution of `opendingux`
                                 # branch in https://github.com/OpenDingux/buildroot repository
 GITHUB_ACCOUNT=PUT_HERE_YOUR_GITHUB_ACCOUNT
 GITHUB_TOKEN=PUT_HERE_A_GITHUB_TOKEN
 ## Other params
-MAKE_PGv1=true                  # Build image for GCW-Zero and PocketGo2 v1
+MAKE_PGv1=false                  # Build image for GCW-Zero and PocketGo2 v1
 MAKE_RG=true                    # Build image for RG350 and derived
-COMP=xz                         # gz or xz
+COMP=gz                         # gz or xz
 P1_SIZE_SECTOR=819168           # Size of partition 1 in sectors (819168 sectors= ~400M)
 SIZE_M=3200                     # Final image size in MiB
 # END PARAMETER ZONE
@@ -234,15 +234,18 @@ if [ ${MAKE_RG} = true ] ; then
     cp "${DIRECTORY}/select_kernel/select_kernel.bat" "${DIRECTORY}/mnt_p1"
     cp "${DIRECTORY}/select_kernel/select_kernel.sh" "${DIRECTORY}/mnt_p1"
     mkdir "${DIRECTORY}/mnt_p1/rg280v"
-    mkdir "${DIRECTORY}/mnt_p1/rg280m"
+    mkdir "${DIRECTORY}/mnt_p1/rg280m-v1.0"
+    mkdir "${DIRECTORY}/mnt_p1/rg280m-v1.1"
     mkdir "${DIRECTORY}/mnt_p1/rg350"
     mkdir "${DIRECTORY}/mnt_p1/rg350m"
     mkdir "${DIRECTORY}/mnt_p1/pocketgo2v2"
     mkdir "${DIRECTORY}/mnt_p1/rg300x"
     cat "${DIRECTORY}/select_kernel/squashfs-root/gcw0/uzImage.bin" "${DIRECTORY}/select_kernel/squashfs-root/gcw0/rg280v.dtb" > "${DIRECTORY}/mnt_p1/rg280v/uzImage.bin"
     sha1sum "${DIRECTORY}/mnt_p1/rg280v/uzImage.bin" | awk '{ print $1 }'>"${DIRECTORY}/mnt_p1/rg280v/uzImage.bin.sha1"
-    cat "${DIRECTORY}/select_kernel/squashfs-root/gcw0/uzImage.bin" "${DIRECTORY}/select_kernel/squashfs-root/gcw0/rg280m.dtb" > "${DIRECTORY}/mnt_p1/rg280m/uzImage.bin"
-    sha1sum "${DIRECTORY}/mnt_p1/rg280m/uzImage.bin" | awk '{ print $1 }'>"${DIRECTORY}/mnt_p1/rg280m/uzImage.bin.sha1"
+    cat "${DIRECTORY}/select_kernel/squashfs-root/gcw0/uzImage.bin" "${DIRECTORY}/select_kernel/squashfs-root/gcw0/rg280m-v1.0.dtb" > "${DIRECTORY}/mnt_p1/rg280m-v1.0/uzImage.bin"
+    sha1sum "${DIRECTORY}/mnt_p1/rg280m-v1.0/uzImage.bin" | awk '{ print $1 }'>"${DIRECTORY}/mnt_p1/rg280m-v1.0/uzImage.bin.sha1"
+    cat "${DIRECTORY}/select_kernel/squashfs-root/gcw0/uzImage.bin" "${DIRECTORY}/select_kernel/squashfs-root/gcw0/rg280m-v1.1.dtb" > "${DIRECTORY}/mnt_p1/rg280m-v1.1/uzImage.bin"
+    sha1sum "${DIRECTORY}/mnt_p1/rg280m-v1.1/uzImage.bin" | awk '{ print $1 }'>"${DIRECTORY}/mnt_p1/rg280m-v1.1/uzImage.bin.sha1"
     cat "${DIRECTORY}/select_kernel/squashfs-root/gcw0/uzImage.bin" "${DIRECTORY}/select_kernel/squashfs-root/gcw0/rg350.dtb" > "${DIRECTORY}/mnt_p1/rg350/uzImage.bin"
     sha1sum "${DIRECTORY}/mnt_p1/rg350/uzImage.bin" | awk '{ print $1 }'>"${DIRECTORY}/mnt_p1/rg350/uzImage.bin.sha1"
     cat "${DIRECTORY}/select_kernel/squashfs-root/gcw0/uzImage.bin" "${DIRECTORY}/select_kernel/squashfs-root/gcw0/rg350m.dtb" > "${DIRECTORY}/mnt_p1/rg350m/uzImage.bin"
