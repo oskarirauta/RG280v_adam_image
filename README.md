@@ -13,7 +13,7 @@ If you want to build the image from its sources, the basic procedure is as follo
 1. Download repository with submodules (**IMPORTANT**: don't forget the `--recursive` option):
 
     ```
-    git clone --recursive https://github.com/eduardofilo/RG350_adam_image.git
+    git clone --recursive https://github.com/oskarirauta/RG280v_adam_image.git
     cd RG350_adam_image
     ```
 
@@ -52,11 +52,11 @@ If you want to build the image from its sources, the basic procedure is as follo
 The first parameters discussed in item 2 of the list above are related to downloading the ODBeta installation OPK which can be obtained from two places:
 
 * Plan "A": Direct download from [http://od.abstraction.se/opendingux/](http://od.abstraction.se/opendingux/). For this plan we only have to locate the directory where the OPK we are interested in is located and assign its URL to the `ODBETA_DIR_URL` parameter. Within that directory must be the OPK with the date in the name that we have assigned to the `ODBETA_VERSION` parameter.
-* Plan "B": Obtained from the artifacts of the actions execution in the Github repository `OpenDingux/buildroot`. There are two alternatives to make the download work well over the Adam image build script. We see them below.
+* Plan "B": Obtained from the artifacts of the actions execution in the Github repository `oskarirauta/opendingux`. There are two alternatives to make the download work well over the Adam image build script. We see them below.
 
 #### Manual download
 
-Manually download the OPK by searching for it in the most recent run of the `OpenDingux_buildroot` workflow from the `OpenDingux/buildroot` repository actions corresponding to the `opendingux` branch. For example at the time of writing this article this is what could be found in the repository:
+Manually download the OPK by searching for it in the most recent run of the `OpenDingux_buildroot` workflow from the `oskarirauta/opendingux` repository actions corresponding to the `opendingux` branch. For example at the time of writing this article this is what could be found in the repository:
 
 ![buildroot actions](images/actions.png)
 
