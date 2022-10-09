@@ -3,7 +3,7 @@
 # BEGIN PARAMETER ZONE
 ## ODbeta params
 ODBETA_DOWNLOAD_PLAN="B"        # "A": Direct download; "B": Artifact from GHAction
-ODBETA_VERSION=2022-09-28       # ODbeta version to install. It should correspond with direct download or GHArtifact
+ODBETA_VERSION=2022-09-30       # ODbeta version to install. It should correspond with direct download or GHArtifact
 ### For plan "A"
 ODBETA_DIR_URL=http://od.abstraction.se/opendingux/26145a93f2e17d0df86ae20b7af455ea155e169c
 ### For plan "B"
