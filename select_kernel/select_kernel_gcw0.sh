@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 export DIALOGOPTS="--colors --backtitle \"Select Kernel\""
 echo "screen_color = (RED,RED,ON)" > /tmp/dialog_err.rc
