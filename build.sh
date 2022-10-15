@@ -2,11 +2,7 @@
 
 # BEGIN PARAMETER ZONE
 ## ODbeta params
-ODBETA_VERSION=2022-10-15       # ODbeta version to install. It should correspond with direct download or GHArtifact
-ODBETA_ARTIFACT_ID=399258054    # ID of `update-gcw0` artifact in last workflow execution of `opendingux`
-                                # branch in https://github.com/oskarirauta/opendingux repository
-GITHUB_ACCOUNT=PUT_HERE_YOUR_GITHUB_ACCOUNT
-GITHUB_TOKEN=PUT_HERE_A_GITHUB_TOKEN
+ODBETA_VERSION=2022-10-15       # ODbeta version to install. It should correspond with direct download
 
 ## Other params
 MAKE_PGv1=false                  # Build image for GCW-Zero and PocketGo2 v1
@@ -53,18 +49,8 @@ p2_size_sector=$((${img_size_sector}-${p2_start_sector}))
 
 # ODBeta download
 if [ ! -f "${DIRECTORY}/select_kernel/${ODBETA_DIST_FILE}" ] ; then
-    [ ${GITHUB_ACCOUNT} == "PUT_HERE_YOUR_GITHUB_ACCOUNT" ] && echo "@@ ERROR: Problem downloading ODBeta distribution. You have to put your github id in GITHUB_ACCOUNT parameter" && exit 1
-    [ ${GITHUB_TOKEN} == "PUT_HERE_A_GITHUB_TOKEN" ] && echo "@@ ERROR: Problem downloading ODBeta distribution. You have to put a github token in GITHUB_TOKEN parameter" && exit 1
-    echo "## Downloading ODBeta distribution"
-    curl -L -H "Accept: application/vnd.github.v3+json" -u "${GITHUB_ACCOUNT}:${GITHUB_TOKEN}" -o "${DIRECTORY}/select_kernel/update-gcw0.zip" https://api.github.com/repos/oskarirauta/opendingux/actions/artifacts/${ODBETA_ARTIFACT_ID}/zip
-    status=$?
-    [ ! ${status} -eq 0 ] && echo "@@ ERROR: Problem downloading ODBeta distribution" && exit 1
-    sync
-    unzip -q -d "${DIRECTORY}/select_kernel" "${DIRECTORY}/select_kernel/update-gcw0.zip"
-    rm "${DIRECTORY}/select_kernel/update-gcw0.zip"
-    ;;
+    curl -o "${DIRECTORY}/select_kernel/gcw0-update-${ODBETA_VERSION}.opk" -L "https://github.com/oskarirauta/opendingux/releases/download/${ODBETA_VERSION}/gcw0-update-${ODBETA_VERSION}.opk"
 fi
-
 
 if [ -d "${DIRECTORY}/select_kernel/squashfs-root" ] ; then
     rm -rf "${DIRECTORY}/select_kernel/squashfs-root"
