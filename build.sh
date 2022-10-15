@@ -2,15 +2,12 @@
 
 # BEGIN PARAMETER ZONE
 ## ODbeta params
-ODBETA_DOWNLOAD_PLAN="B"        # "A": Direct download; "B": Artifact from GHAction
-ODBETA_VERSION=2022-09-30       # ODbeta version to install. It should correspond with direct download or GHArtifact
-### For plan "A"
-ODBETA_DIR_URL=http://od.abstraction.se/opendingux/26145a93f2e17d0df86ae20b7af455ea155e169c
-### For plan "B"
-ODBETA_ARTIFACT_ID=381268265    # ID of `update-gcw0` artifact in last workflow execution of `opendingux`
+ODBETA_VERSION=2022-10-15       # ODbeta version to install. It should correspond with direct download or GHArtifact
+ODBETA_ARTIFACT_ID=399258054    # ID of `update-gcw0` artifact in last workflow execution of `opendingux`
                                 # branch in https://github.com/oskarirauta/opendingux repository
 GITHUB_ACCOUNT=PUT_HERE_YOUR_GITHUB_ACCOUNT
 GITHUB_TOKEN=PUT_HERE_A_GITHUB_TOKEN
+
 ## Other params
 MAKE_PGv1=false                  # Build image for GCW-Zero and PocketGo2 v1
 MAKE_RG=true                    # Build image for RG350 and derived
@@ -56,31 +53,16 @@ p2_size_sector=$((${img_size_sector}-${p2_start_sector}))
 
 # ODBeta download
 if [ ! -f "${DIRECTORY}/select_kernel/${ODBETA_DIST_FILE}" ] ; then
-    case ${ODBETA_DOWNLOAD_PLAN} in
-        A)
-            echo "## Downloading ODBeta distribution"
-            ODBETA_DIST_URL=${ODBETA_DIR_URL}/${ODBETA_DIST_FILE}
-            wget -q -P "${DIRECTORY}/select_kernel" ${ODBETA_DIST_URL}
-            status=$?
-            [ ! ${status} -eq 0 ] && echo "@@ ERROR: Problem downloading ODBeta distribution" && exit 1
-            ;;
-
-        B)
-            [ ${GITHUB_ACCOUNT} == "PUT_HERE_YOUR_GITHUB_ACCOUNT" ] && echo "@@ ERROR: Problem downloading ODBeta distribution. You have to put your github id in GITHUB_ACCOUNT parameter" && exit 1
-            [ ${GITHUB_TOKEN} == "PUT_HERE_A_GITHUB_TOKEN" ] && echo "@@ ERROR: Problem downloading ODBeta distribution. You have to put a github token in GITHUB_TOKEN parameter" && exit 1
-            echo "## Downloading ODBeta distribution"
-            curl -L -H "Accept: application/vnd.github.v3+json" -u "${GITHUB_ACCOUNT}:${GITHUB_TOKEN}" -o "${DIRECTORY}/select_kernel/update-gcw0.zip" https://api.github.com/repos/oskarirauta/opendingux/actions/artifacts/${ODBETA_ARTIFACT_ID}/zip
-            status=$?
-            [ ! ${status} -eq 0 ] && echo "@@ ERROR: Problem downloading ODBeta distribution" && exit 1
-            sync
-            unzip -q -d "${DIRECTORY}/select_kernel" "${DIRECTORY}/select_kernel/update-gcw0.zip"
-            rm "${DIRECTORY}/select_kernel/update-gcw0.zip"
-            ;;
-
-        *)
-            echo "@@ ERROR: Unknown plan for download ODBeta distribution" && exit 1
-            ;;
-    esac
+    [ ${GITHUB_ACCOUNT} == "PUT_HERE_YOUR_GITHUB_ACCOUNT" ] && echo "@@ ERROR: Problem downloading ODBeta distribution. You have to put your github id in GITHUB_ACCOUNT parameter" && exit 1
+    [ ${GITHUB_TOKEN} == "PUT_HERE_A_GITHUB_TOKEN" ] && echo "@@ ERROR: Problem downloading ODBeta distribution. You have to put a github token in GITHUB_TOKEN parameter" && exit 1
+    echo "## Downloading ODBeta distribution"
+    curl -L -H "Accept: application/vnd.github.v3+json" -u "${GITHUB_ACCOUNT}:${GITHUB_TOKEN}" -o "${DIRECTORY}/select_kernel/update-gcw0.zip" https://api.github.com/repos/oskarirauta/opendingux/actions/artifacts/${ODBETA_ARTIFACT_ID}/zip
+    status=$?
+    [ ! ${status} -eq 0 ] && echo "@@ ERROR: Problem downloading ODBeta distribution" && exit 1
+    sync
+    unzip -q -d "${DIRECTORY}/select_kernel" "${DIRECTORY}/select_kernel/update-gcw0.zip"
+    rm "${DIRECTORY}/select_kernel/update-gcw0.zip"
+    ;;
 fi
 
 
